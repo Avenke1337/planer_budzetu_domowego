@@ -10,9 +10,48 @@
 </head>
 <body>
     <main class="container mt-4">
-        <h1>Planer budżetu domowego</h1>
-    </main>
+    <h1>Planer budżetu domowego</h1>
 
+    <h2 class="mt-4">Dodaj operację</h2>
+
+    <form id="formularz">
+        <div class="row">
+            <div class="col-12 col-md-6 mb-3">
+                <label for="opis" class="form-label">Opis</label>
+                <input type="text" id="opis" class="form-control"
+                       placeholder="np. Zakupy spożywcze">
+            </div>
+
+            <div class="col-12 col-md-6 mb-3">
+                <label for="kwota" class="form-label">Kwota (zł)</label>
+                <input type="text" id="kwota" class="form-control" placeholder="np. 49,99">
+            </div>
+
+            <div class="col-12 col-md-6 mb-3">
+                <label for="typ" class="form-label">Typ operacji</label>
+                <select id="typ" class="form-select">
+                    <option value="wydatek">Wydatek</option>
+                    <option value="przychod">Przychód</option>
+                </select>
+            </div>
+
+            <div class="col-12 col-md-6 mb-3">
+                <label for="kategoria" class="form-label">Kategoria</label>
+                <select id="kategoria" class="form-select">
+                    <option value="zywnosc">Żywność</option>
+                    <option value="mieszkanie">Mieszkanie</option>
+                    <option value="transport">Transport</option>
+                    <option value="rozrywka">Rozrywka</option>
+                    <option value="zdrowie">Zdrowie</option>
+                    <option value="wynagrodzenie">Wynagrodzenie</option>
+                    <option value="inne">Inne</option>
+                </select>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Dodaj</button>
+    </form>
+</main>
     <script src="https://code.jquery.com/jquery-4.0.0.min.js"></script>
     <script src="script.js"></script>
 </body>
