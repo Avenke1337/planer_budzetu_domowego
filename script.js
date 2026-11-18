@@ -32,7 +32,7 @@ $(function() {
         $('#listaOperacji').append(wiersz);
     }
 }
-    //dodawanie operacji, walidacja formularza
+    //dodawanie operacji, walidacja formularza (obsluga formularza ogolnie)
     $('#formularz').on('submit', function(event) {
         event.preventDefault();
 
@@ -72,6 +72,17 @@ $(function() {
 
         this.reset();
         wyswietlOperacje();
+    });
+        $('#listaOperacji').on('click', '.usun', function() {
+        let id = Number($(this).attr('data-id'));
+
+        for (let i = 0; i < operacje.length; i++) {
+            if (operacje[i].id === id) {
+                operacje.splice(i, 1);
+                wyswietlOperacje();
+                break;
+            }
+        }
     });
 });
 
