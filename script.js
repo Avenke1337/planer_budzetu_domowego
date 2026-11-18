@@ -1,6 +1,36 @@
 $(function() {
     let operacje = [];
     let nastepneId = 1;
+    function wyswietlOperacje() {
+    $('#listaOperacji').empty();
+
+    for (let operacja of operacje) {
+        let wiersz = $('<tr>');
+        let kategoria = $('#kategoria option[value="' + operacja.kategoria + '"]').text();
+        let kwota = operacja.kwota.toFixed(2).replace('.', ',') + ' zł';
+
+        let komorkaKwoty = $('<td>');
+
+        if (operacja.typ === 'przychod') {
+            komorkaKwoty.text('+ ' + kwota).addClass('text-success');
+        } else {
+            komorkaKwoty.text('- ' + kwota).addClass('text-danger');
+        }
+
+        let przyciskUsun = $('<button>')
+            .attr('type', 'button')
+            .attr('data-id', operacja.id)
+            .addClass('btn btn-danger btn-sm usun')
+            .text('Usuń');
+
+        wiersz.append($('<td>').text(operacja.opis));
+        wiersz.append($('<td>').text(kategoria));
+        wiersz.append(komorkaKwoty);
+        wiersz.append($('<td>').append(przyciskUsun));
+
+        $('#listaOperacji').append(wiersz);
+    }
+}
     $('#formularz').on('submit', function(event) {
         event.preventDefault();
 
@@ -39,7 +69,7 @@ $(function() {
         nastepneId++;
 
         this.reset();
-        console.log(operacje);
+        wyswietlOperacje();
     });
 });
 
