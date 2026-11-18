@@ -1,6 +1,7 @@
 $(function() {
     let operacje = [];
     let nastepneId = 1;
+    //wyswietlanie operacji
     function wyswietlOperacje() {
     $('#listaOperacji').empty();
 
@@ -31,6 +32,7 @@ $(function() {
         $('#listaOperacji').append(wiersz);
     }
 }
+    //dodawanie operacji, walidacja formularza
     $('#formularz').on('submit', function(event) {
         event.preventDefault();
 
