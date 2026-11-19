@@ -32,6 +32,35 @@ $(function() {
         $('#listaOperacji').append(wiersz);
     }
 }
+    //saldo
+    function obliczPodsumowanie() {
+    let przychody = 0;
+    let wydatki = 0;
+
+    for (let operacja of operacje) {
+        let grosze = Math.round(operacja.kwota * 100);
+
+        if (operacja.typ === 'przychod') {
+            przychody += grosze;
+        } else {
+            wydatki += grosze;
+        }
+    }
+
+    let saldo = przychody - wydatki;
+
+    $('#sumaPrzychodow').text((przychody / 100).toFixed(2).replace('.', ',') + ' zł');
+    $('#sumaWydatkow').text((wydatki / 100).toFixed(2).replace('.', ',') + ' zł');
+    $('#saldo').text((saldo / 100).toFixed(2).replace('.', ',') + ' zł');
+
+    $('#saldo').removeClass('text-success text-danger');
+
+    if (saldo > 0) {
+        $('#saldo').addClass('text-success');
+    } else if (saldo < 0) {
+        $('#saldo').addClass('text-danger');
+    }
+}
     //dodawanie operacji, walidacja formularza (obsluga formularza ogolnie)
     $('#formularz').on('submit', function(event) {
         event.preventDefault();
@@ -72,6 +101,7 @@ $(function() {
 
         this.reset();
         wyswietlOperacje();
+        obliczPodsumowanie();
     });
         $('#listaOperacji').on('click', '.usun', function() {
         let id = Number($(this).attr('data-id'));
@@ -80,6 +110,7 @@ $(function() {
             if (operacje[i].id === id) {
                 operacje.splice(i, 1);
                 wyswietlOperacje();
+                obliczPodsumowanie();
                 break;
             }
         }
