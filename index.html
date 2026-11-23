@@ -79,20 +79,29 @@
             </div>
         </div>
         <h2 class="mt-4">Operacje</h2>
-        <div class="row mb-3">
-            <div class="col-12 col-md-6 mb-2">
+        <div class="row g-2 mb-3">
+            <div class="col-auto">
                 <label for="filtrTypu" class="form-label">Typ operacji</label>
-                <select id="filtrTypu" class="form-select">
+                <select id="filtrTypu" class="form-select form-select-sm">
                     <option value="">Wszystkie typy</option>
                     <option value="przychod">Przychód</option>
                     <option value="wydatek">Wydatek</option>
                 </select>
             </div>
 
-            <div class="col-12 col-md-6 mb-2">
+            <div class="col-auto">
                 <label for="filtrKategorii" class="form-label">Kategoria</label>
-                <select id="filtrKategorii" class="form-select">
+                <select id="filtrKategorii" class="form-select form-select-sm">
                     <option value="">Wszystkie kategorie</option>
+                </select>
+            </div>
+            
+            <div class="col-auto">
+                <label for="sortowanie" class="form-label">Sortowanie po kwocie</label>
+                <select id="sortowanie" class="form-select form-select-sm">
+                    <option value="">Kolejność dodania</option>
+                    <option value="rosnaco">Od najmniejszej kwoty</option>
+                    <option value="malejaco">Od największej kwoty</option>
                 </select>
             </div>
         </div>

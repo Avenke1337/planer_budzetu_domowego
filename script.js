@@ -4,7 +4,7 @@ $(function() {
     $('#filtrKategorii').append($('#kategoria option').clone());
     $('#filtrKategorii').val('');
 
-    $('#filtrTypu, #filtrKategorii').on('change', function() {
+    $('#filtrTypu, #filtrKategorii, #sortowanie').on('change', function() {
         wyswietlOperacje();
     });
     //wyswietlanie operacji
@@ -12,8 +12,21 @@ $(function() {
     $('#listaOperacji').empty();
     let filtrTypu = $('#filtrTypu').val();
     let filtrKategorii = $('#filtrKategorii').val();
+    //sortowanie operacji (rosnaco/malejaco)
+    let sortowanie = $('#sortowanie').val();
+    let operacjeDoWyswietlenia = operacje.slice();
 
-    for (let operacja of operacje) {
+    if (sortowanie === 'rosnaco') {
+        operacjeDoWyswietlenia.sort(function(a, b) {
+            return a.kwota - b.kwota;
+        });
+    } else if (sortowanie === 'malejaco') {
+        operacjeDoWyswietlenia.sort(function(a, b) {
+            return b.kwota - a.kwota;
+        });
+    }
+
+    for (let operacja of operacjeDoWyswietlenia) {
         if (filtrTypu !== '' && operacja.typ !== filtrTypu) {
             continue;
         }
