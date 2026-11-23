@@ -61,6 +61,52 @@ $(function() {
         $('#saldo').addClass('text-danger');
     }
 }
+    //wyswietlanie wydatkow w procentach i podzielone na kategorie
+    function wyswietlWydatkiKategorie() {
+    let sumaWydatkow = 0;
+    let sumyKategorii = {};
+
+    for (let operacja of operacje) {
+        if (operacja.typ === 'wydatek') {
+            let grosze = Math.round(operacja.kwota * 100);
+            let kategoria = operacja.kategoria;
+
+            if (sumyKategorii[kategoria] === undefined) {
+                sumyKategorii[kategoria] = 0;
+            }
+
+            sumyKategorii[kategoria] += grosze;
+            sumaWydatkow += grosze;
+        }
+    }
+
+    $('#wydatkiKategorie').empty();
+
+    if (sumaWydatkow === 0) {
+        $('#wydatkiKategorie').append($('<p>').text('Brak wydatków.'));
+        return;
+    }
+
+    $('#kategoria option').each(function() {
+        let grosze = sumyKategorii[$(this).val()];
+
+        if (grosze === undefined) {
+            return;
+        }
+
+        let procent = grosze / sumaWydatkow * 100;
+        let kwota = (grosze / 100).toFixed(2).replace('.', ',') + ' zł';
+        let procentTekst = procent.toFixed(1).replace('.', ',') + '%';
+
+        let opis = $('<div>').text($(this).text() + ' — ' + kwota + ' (' + procentTekst + ')');
+        let pasek = $('<div>').addClass('progress-bar').css('width', procent + '%');
+        let tloPaska = $('<div>').addClass('progress mb-3')
+            .attr('aria-hidden', 'true')
+            .append(pasek);
+
+        $('#wydatkiKategorie').append(opis, tloPaska);
+    });
+}
     //dodawanie operacji, walidacja formularza (obsluga formularza ogolnie)
     $('#formularz').on('submit', function(event) {
         event.preventDefault();
@@ -102,6 +148,8 @@ $(function() {
         this.reset();
         wyswietlOperacje();
         obliczPodsumowanie();
+        wyswietlWydatkiKategorie();
+        
     });
         $('#listaOperacji').on('click', '.usun', function() {
         let id = Number($(this).attr('data-id'));
@@ -111,6 +159,7 @@ $(function() {
                 operacje.splice(i, 1);
                 wyswietlOperacje();
                 obliczPodsumowanie();
+                wyswietlWydatkiKategorie();
                 break;
             }
         }
