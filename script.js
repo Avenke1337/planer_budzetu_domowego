@@ -1,11 +1,26 @@
 $(function() {
     let operacje = [];
     let nastepneId = 1;
+    $('#filtrKategorii').append($('#kategoria option').clone());
+    $('#filtrKategorii').val('');
+
+    $('#filtrTypu, #filtrKategorii').on('change', function() {
+        wyswietlOperacje();
+    });
     //wyswietlanie operacji
     function wyswietlOperacje() {
     $('#listaOperacji').empty();
+    let filtrTypu = $('#filtrTypu').val();
+    let filtrKategorii = $('#filtrKategorii').val();
 
     for (let operacja of operacje) {
+        if (filtrTypu !== '' && operacja.typ !== filtrTypu) {
+            continue;
+        }
+
+        if (filtrKategorii !== '' && operacja.kategoria !== filtrKategorii) {
+            continue;
+        }
         let wiersz = $('<tr>');
         let kategoria = $('#kategoria option[value="' + operacja.kategoria + '"]').text();
         let kwota = operacja.kwota.toFixed(2).replace('.', ',') + ' zł';
