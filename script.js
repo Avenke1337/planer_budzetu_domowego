@@ -1,6 +1,15 @@
 $(function() {
     let operacje = [];
     let nastepneId = 1;
+    let edytowanaOperacja = null;
+    //zakanczanie edycji
+    function zakonczEdycje() {
+        edytowanaOperacja = null;
+        $('#formularz')[0].reset();
+        $('#opis, #kwota').removeClass('is-invalid');
+        $('#zapiszOperacje').text('Dodaj');
+        $('#anulujEdycje').addClass('d-none');
+    }
     $('#filtrKategorii').append($('#kategoria option').clone());
     $('#filtrKategorii').val('');
 
@@ -55,7 +64,12 @@ $(function() {
         wiersz.append($('<td>').text(operacja.opis));
         wiersz.append($('<td>').text(kategoria));
         wiersz.append(komorkaKwoty);
-        wiersz.append($('<td>').append(przyciskUsun));
+        let przyciskEdytuj = $('<button>')
+        .attr('type', 'button')
+        .attr('data-id', operacja.id)
+        .addClass('btn btn-outline-primary btn-sm me-2 edytuj')
+        .text('Edytuj');
+        wiersz.append($('<td>').append(przyciskEdytuj, przyciskUsun));
 
         $('#listaOperacji').append(wiersz);
     }
@@ -162,18 +176,27 @@ $(function() {
             return;
         }
 
-        let operacja = {
-            id: nastepneId,
-            opis: opis,
-            kwota: kwota,
-            typ: $('#typ').val(),
-            kategoria: $('#kategoria').val()
-        };
+        let typ = $('#typ').val();
+        let kategoria = $('#kategoria').val();
 
-        operacje.push(operacja);
-        nastepneId++;
+        if (edytowanaOperacja === null) {
+            operacje.push({
+                id: nastepneId,
+                opis: opis,
+                kwota: kwota,
+                typ: typ,
+                kategoria: kategoria
+            });
 
-        this.reset();
+            nastepneId++;
+        } else {
+            edytowanaOperacja.opis = opis;
+            edytowanaOperacja.kwota = kwota;
+            edytowanaOperacja.typ = typ;
+            edytowanaOperacja.kategoria = kategoria;
+        }
+
+        zakonczEdycje();
         wyswietlOperacje();
         obliczPodsumowanie();
         wyswietlWydatkiKategorie();
@@ -184,6 +207,9 @@ $(function() {
 
         for (let i = 0; i < operacje.length; i++) {
             if (operacje[i].id === id) {
+                if (operacje[i] === edytowanaOperacja) {
+                    zakonczEdycje();
+                }
                 operacje.splice(i, 1);
                 wyswietlOperacje();
                 obliczPodsumowanie();
@@ -192,5 +218,28 @@ $(function() {
             }
         }
     });
+        $('#listaOperacji').on('click', '.edytuj', function() {
+        let id = Number($(this).attr('data-id'));
+
+        for (let operacja of operacje) {
+            if (operacja.id === id) {
+                edytowanaOperacja = operacja;
+
+                $('#opis').val(operacja.opis);
+                $('#kwota').val(operacja.kwota.toFixed(2).replace('.', ','));
+                $('#typ').val(operacja.typ);
+                $('#kategoria').val(operacja.kategoria);
+
+                $('#opis, #kwota').removeClass('is-invalid');
+                $('#zapiszOperacje').text('Zapisz zmiany');
+                $('#anulujEdycje').removeClass('d-none');
+                $('#opis').trigger('focus');
+
+                break;
+            }
+        }
+    });
+
+    $('#anulujEdycje').on('click', zakonczEdycje);
 });
 
