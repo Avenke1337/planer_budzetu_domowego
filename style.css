@@ -1,0 +1,84 @@
+body {
+    background-color: #e8eff7;
+    color: #24344d;
+}
+
+main.container {
+    background-color: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+h1 {
+    background-color: #24344d;
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+#formularz {
+    background-color: #f2f6fb;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.card {
+    background-color: #eaf2ff;
+    border: 1px solid #c6d5e8;
+    border-radius: 10px;
+}
+
+#sumaPrzychodow,
+#sumaWydatkow,
+#saldo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.table th {
+    background-color: #dbe7f5;
+    color: #24344d;
+}
+
+.progress-bar {
+    background-color: #345ba8;
+}
+
+
+/*tryb ciemny*/
+
+[data-bs-theme="dark"] body {
+    background-color: #101723;
+    color: #e8eef7;
+}
+
+[data-bs-theme="dark"] main.container {
+    background-color: #1c2738;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+}
+
+[data-bs-theme="dark"] h1 {
+    background-color: #111a29;
+}
+
+[data-bs-theme="dark"] #formularz,
+[data-bs-theme="dark"] .card {
+    background-color: #263348;
+    border-color: #41516a;
+}
+
+[data-bs-theme="dark"] .table th {
+    background-color: #2d3c53;
+    color: #e8eef7;
+}
+
+[data-bs-theme="dark"] {
+    --bs-success-rgb: 117, 219, 160;
+    --bs-danger-rgb: 255, 145, 158;
+}
+
+[data-bs-theme="dark"] .progress-bar {
+    background-color: #6c9cff;
+}

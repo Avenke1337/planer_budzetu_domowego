@@ -2,7 +2,12 @@ $(function() {
     let operacje = [];
     let nastepneId = 1;
     let edytowanaOperacja = null;
+
+
     //zapisywanie w localstorage
+
+
+
     function zapiszOperacje() {
         try {
             localStorage.setItem('operacjeBudzetu', JSON.stringify(operacje));
@@ -10,6 +15,9 @@ $(function() {
             console.warn('Nie udało się zapisać operacji.', blad);
         }
     }
+
+
+
 
     function wczytajOperacje() {
         try {
@@ -34,6 +42,9 @@ $(function() {
             console.warn('Nie udało się wczytać operacji.', blad);
         }
     }
+
+
+
     //zakanczanie edycji
     function zakonczEdycje() {
         edytowanaOperacja = null;
@@ -48,12 +59,16 @@ $(function() {
     $('#filtrTypu, #filtrKategorii, #sortowanie').on('change', function() {
         wyswietlOperacje();
     });
-    //wyswietlanie operacji
+
+
+
+    //wyswietlanie operacji + sortowanie
+
     function wyswietlOperacje() {
     $('#listaOperacji').empty();
     let filtrTypu = $('#filtrTypu').val();
     let filtrKategorii = $('#filtrKategorii').val();
-    //sortowanie operacji (rosnaco/malejaco)
+
     let sortowanie = $('#sortowanie').val();
     let operacjeDoWyswietlenia = operacje.slice();
 
@@ -106,6 +121,10 @@ $(function() {
         $('#listaOperacji').append(wiersz);
     }
 }
+
+
+
+
     //saldo
     function obliczPodsumowanie() {
     let przychody = 0;
@@ -135,6 +154,10 @@ $(function() {
         $('#saldo').addClass('text-danger');
     }
 }
+
+
+
+
     //wyswietlanie wydatkow w procentach i podzielone na kategorie
     function wyswietlWydatkiKategorie() {
     let sumaWydatkow = 0;
@@ -234,6 +257,9 @@ $(function() {
         wyswietlWydatkiKategorie();
         
     });
+
+
+    //usuwanie operacji
         $('#listaOperacji').on('click', '.usun', function() {
         let id = Number($(this).attr('data-id'));
 
@@ -251,6 +277,9 @@ $(function() {
             }
         }
     });
+
+
+    //edycja operacji
         $('#listaOperacji').on('click', '.edytuj', function() {
         let id = Number($(this).attr('data-id'));
 
@@ -273,10 +302,24 @@ $(function() {
         }
     });
 
+
+    //anulowanie edycji
     $('#anulujEdycje').on('click', zakonczEdycje);
     wczytajOperacje();
     wyswietlOperacje();
     obliczPodsumowanie();
     wyswietlWydatkiKategorie();
+
+    //tryb jasny/ciemny
+
+        $('#zmienMotyw').on('click', function() {
+        if ($('html').attr('data-bs-theme') === 'dark') {
+            $('html').attr('data-bs-theme', 'light');
+            $(this).text('🌙 Tryb ciemny');
+        } else {
+            $('html').attr('data-bs-theme', 'dark');
+            $(this).text('☀️ Tryb jasny');
+        }
+    });
 });
 
