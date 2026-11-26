@@ -2,6 +2,38 @@ $(function() {
     let operacje = [];
     let nastepneId = 1;
     let edytowanaOperacja = null;
+    //zapisywanie w localstorage
+    function zapiszOperacje() {
+        try {
+            localStorage.setItem('operacjeBudzetu', JSON.stringify(operacje));
+        } catch (blad) {
+            console.warn('Nie udało się zapisać operacji.', blad);
+        }
+    }
+
+    function wczytajOperacje() {
+        try {
+            let zapis = localStorage.getItem('operacjeBudzetu');
+
+            if (zapis === null) {
+                return;
+            }
+
+            let dane = JSON.parse(zapis);
+
+            if (!Array.isArray(dane)) {
+                return;
+            }
+
+            operacje = dane;
+
+            for (let operacja of operacje) {
+                nastepneId = Math.max(nastepneId, operacja.id + 1);
+            }
+        } catch (blad) {
+            console.warn('Nie udało się wczytać operacji.', blad);
+        }
+    }
     //zakanczanie edycji
     function zakonczEdycje() {
         edytowanaOperacja = null;
@@ -195,7 +227,7 @@ $(function() {
             edytowanaOperacja.typ = typ;
             edytowanaOperacja.kategoria = kategoria;
         }
-
+        zapiszOperacje();
         zakonczEdycje();
         wyswietlOperacje();
         obliczPodsumowanie();
@@ -211,6 +243,7 @@ $(function() {
                     zakonczEdycje();
                 }
                 operacje.splice(i, 1);
+                zapiszOperacje();
                 wyswietlOperacje();
                 obliczPodsumowanie();
                 wyswietlWydatkiKategorie();
@@ -241,5 +274,9 @@ $(function() {
     });
 
     $('#anulujEdycje').on('click', zakonczEdycje);
+    wczytajOperacje();
+    wyswietlOperacje();
+    obliczPodsumowanie();
+    wyswietlWydatkiKategorie();
 });
 
